@@ -1,0 +1,6 @@
+framework module Pods_YJNetManagerDemo {
+  umbrella header "Pods-YJNetManagerDemo-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,453 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5A325EA3A46B49C8EC4FBDDD /* Pods_YJNetManagerDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3D2D759D949D2684E931CE7 /* Pods_YJNetManagerDemo.framework */; };
+		BA8197D2223CD7A700A1C20B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BA8197D1223CD7A700A1C20B /* AppDelegate.m */; };
+		BA8197D5223CD7A700A1C20B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA8197D4223CD7A700A1C20B /* ViewController.m */; };
+		BA8197D8223CD7A700A1C20B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA8197D6223CD7A700A1C20B /* Main.storyboard */; };
+		BA8197DA223CD7A800A1C20B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA8197D9223CD7A800A1C20B /* Assets.xcassets */; };
+		BA8197DD223CD7A800A1C20B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA8197DB223CD7A800A1C20B /* LaunchScreen.storyboard */; };
+		BA8197E0223CD7A800A1C20B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BA8197DF223CD7A800A1C20B /* main.m */; };
+		BA8197E9223CD8B000A1C20B /* NSError+YJNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BA8197E7223CD8AF00A1C20B /* NSError+YJNetManager.m */; };
+		BA8197EC223CDA8100A1C20B /* YJNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BA8197EB223CDA8100A1C20B /* YJNetManager.m */; };
+		BAF503C0223F93B4009575D7 /* YJUploadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BAF503BF223F93B4009575D7 /* YJUploadModel.m */; };
+		BAF503C3223FAE3D009575D7 /* YJSubtitleParser.m in Sources */ = {isa = PBXBuildFile; fileRef = BAF503C2223FAE3D009575D7 /* YJSubtitleParser.m */; };
+		BAF503C6223FB0A1009575D7 /* YJNetMonitoring.m in Sources */ = {isa = PBXBuildFile; fileRef = BAF503C5223FB0A1009575D7 /* YJNetMonitoring.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		6C3A3B5A06CA5C77CBCA37C2 /* Pods-YJNetManagerDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YJNetManagerDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-YJNetManagerDemo/Pods-YJNetManagerDemo.release.xcconfig"; sourceTree = "<group>"; };
+		82A22611A2E7E468FC1E9549 /* Pods-YJNetManagerDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YJNetManagerDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YJNetManagerDemo/Pods-YJNetManagerDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		B3D2D759D949D2684E931CE7 /* Pods_YJNetManagerDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YJNetManagerDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA8197CD223CD7A700A1C20B /* YJNetManagerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YJNetManagerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA8197D0223CD7A700A1C20B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		BA8197D1223CD7A700A1C20B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		BA8197D3223CD7A700A1C20B /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		BA8197D4223CD7A700A1C20B /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		BA8197D7223CD7A700A1C20B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		BA8197D9223CD7A800A1C20B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BA8197DC223CD7A800A1C20B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		BA8197DE223CD7A800A1C20B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA8197DF223CD7A800A1C20B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BA8197E7223CD8AF00A1C20B /* NSError+YJNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+YJNetManager.m"; sourceTree = "<group>"; };
+		BA8197E8223CD8AF00A1C20B /* NSError+YJNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+YJNetManager.h"; sourceTree = "<group>"; };
+		BA8197EA223CDA8100A1C20B /* YJNetManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YJNetManager.h; sourceTree = "<group>"; };
+		BA8197EB223CDA8100A1C20B /* YJNetManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YJNetManager.m; sourceTree = "<group>"; };
+		BAF503BE223F93B4009575D7 /* YJUploadModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YJUploadModel.h; sourceTree = "<group>"; };
+		BAF503BF223F93B4009575D7 /* YJUploadModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YJUploadModel.m; sourceTree = "<group>"; };
+		BAF503C1223FAE3D009575D7 /* YJSubtitleParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YJSubtitleParser.h; sourceTree = "<group>"; };
+		BAF503C2223FAE3D009575D7 /* YJSubtitleParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YJSubtitleParser.m; sourceTree = "<group>"; };
+		BAF503C4223FB0A1009575D7 /* YJNetMonitoring.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YJNetMonitoring.h; sourceTree = "<group>"; };
+		BAF503C5223FB0A1009575D7 /* YJNetMonitoring.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YJNetMonitoring.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BA8197CA223CD7A700A1C20B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A325EA3A46B49C8EC4FBDDD /* Pods_YJNetManagerDemo.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A88B78C68377A0A9002BA1AE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B3D2D759D949D2684E931CE7 /* Pods_YJNetManagerDemo.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BA8197C4223CD7A700A1C20B = {
+			isa = PBXGroup;
+			children = (
+				BA8197E6223CD86B00A1C20B /* YJNetManager */,
+				BA8197CF223CD7A700A1C20B /* YJNetManagerDemo */,
+				BA8197CE223CD7A700A1C20B /* Products */,
+				E1BCF864BF4C9027C6B4D93C /* Pods */,
+				A88B78C68377A0A9002BA1AE /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		BA8197CE223CD7A700A1C20B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BA8197CD223CD7A700A1C20B /* YJNetManagerDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BA8197CF223CD7A700A1C20B /* YJNetManagerDemo */ = {
+			isa = PBXGroup;
+			children = (
+				BA8197D0223CD7A700A1C20B /* AppDelegate.h */,
+				BA8197D1223CD7A700A1C20B /* AppDelegate.m */,
+				BA8197D3223CD7A700A1C20B /* ViewController.h */,
+				BA8197D4223CD7A700A1C20B /* ViewController.m */,
+				BA8197D6223CD7A700A1C20B /* Main.storyboard */,
+				BA8197D9223CD7A800A1C20B /* Assets.xcassets */,
+				BA8197DB223CD7A800A1C20B /* LaunchScreen.storyboard */,
+				BA8197DE223CD7A800A1C20B /* Info.plist */,
+				BA8197DF223CD7A800A1C20B /* main.m */,
+			);
+			path = YJNetManagerDemo;
+			sourceTree = "<group>";
+		};
+		BA8197E6223CD86B00A1C20B /* YJNetManager */ = {
+			isa = PBXGroup;
+			children = (
+				BA8197E8223CD8AF00A1C20B /* NSError+YJNetManager.h */,
+				BA8197E7223CD8AF00A1C20B /* NSError+YJNetManager.m */,
+				BAF503BE223F93B4009575D7 /* YJUploadModel.h */,
+				BAF503BF223F93B4009575D7 /* YJUploadModel.m */,
+				BAF503C1223FAE3D009575D7 /* YJSubtitleParser.h */,
+				BAF503C2223FAE3D009575D7 /* YJSubtitleParser.m */,
+				BAF503C4223FB0A1009575D7 /* YJNetMonitoring.h */,
+				BAF503C5223FB0A1009575D7 /* YJNetMonitoring.m */,
+				BA8197EA223CDA8100A1C20B /* YJNetManager.h */,
+				BA8197EB223CDA8100A1C20B /* YJNetManager.m */,
+			);
+			path = YJNetManager;
+			sourceTree = "<group>";
+		};
+		E1BCF864BF4C9027C6B4D93C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				82A22611A2E7E468FC1E9549 /* Pods-YJNetManagerDemo.debug.xcconfig */,
+				6C3A3B5A06CA5C77CBCA37C2 /* Pods-YJNetManagerDemo.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BA8197CC223CD7A700A1C20B /* YJNetManagerDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA8197E3223CD7A800A1C20B /* Build configuration list for PBXNativeTarget "YJNetManagerDemo" */;
+			buildPhases = (
+				84521436964E1CF49BB118BC /* [CP] Check Pods Manifest.lock */,
+				BA8197C9223CD7A700A1C20B /* Sources */,
+				BA8197CA223CD7A700A1C20B /* Frameworks */,
+				BA8197CB223CD7A700A1C20B /* Resources */,
+				980E0A1B8307D2D4222548BC /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = YJNetManagerDemo;
+			productName = YJNetManagerDemo;
+			productReference = BA8197CD223CD7A700A1C20B /* YJNetManagerDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BA8197C5223CD7A700A1C20B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "刘亚军";
+				TargetAttributes = {
+					BA8197CC223CD7A700A1C20B = {
+						CreatedOnToolsVersion = 10.1;
+					};
+				};
+			};
+			buildConfigurationList = BA8197C8223CD7A700A1C20B /* Build configuration list for PBXProject "YJNetManagerDemo" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BA8197C4223CD7A700A1C20B;
+			productRefGroup = BA8197CE223CD7A700A1C20B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BA8197CC223CD7A700A1C20B /* YJNetManagerDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BA8197CB223CD7A700A1C20B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA8197DD223CD7A800A1C20B /* LaunchScreen.storyboard in Resources */,
+				BA8197DA223CD7A800A1C20B /* Assets.xcassets in Resources */,
+				BA8197D8223CD7A700A1C20B /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		84521436964E1CF49BB118BC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-YJNetManagerDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		980E0A1B8307D2D4222548BC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-YJNetManagerDemo/Pods-YJNetManagerDemo-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+				"${BUILT_PRODUCTS_DIR}/TFHpple/TFHpple.framework",
+				"${BUILT_PRODUCTS_DIR}/YJExtensions/YJExtensions.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TFHpple.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YJExtensions.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YJNetManagerDemo/Pods-YJNetManagerDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BA8197C9223CD7A700A1C20B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA8197EC223CDA8100A1C20B /* YJNetManager.m in Sources */,
+				BAF503C3223FAE3D009575D7 /* YJSubtitleParser.m in Sources */,
+				BA8197D5223CD7A700A1C20B /* ViewController.m in Sources */,
+				BA8197E0223CD7A800A1C20B /* main.m in Sources */,
+				BAF503C6223FB0A1009575D7 /* YJNetMonitoring.m in Sources */,
+				BA8197E9223CD8B000A1C20B /* NSError+YJNetManager.m in Sources */,
+				BA8197D2223CD7A700A1C20B /* AppDelegate.m in Sources */,
+				BAF503C0223F93B4009575D7 /* YJUploadModel.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		BA8197D6223CD7A700A1C20B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BA8197D7223CD7A700A1C20B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		BA8197DB223CD7A800A1C20B /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BA8197DC223CD7A800A1C20B /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BA8197E1223CD7A800A1C20B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		BA8197E2223CD7A800A1C20B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BA8197E4223CD7A800A1C20B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 82A22611A2E7E468FC1E9549 /* Pods-YJNetManagerDemo.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z35S33J39R;
+				INFOPLIST_FILE = YJNetManagerDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lancoo.YJNetManagerDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BA8197E5223CD7A800A1C20B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C3A3B5A06CA5C77CBCA37C2 /* Pods-YJNetManagerDemo.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z35S33J39R;
+				INFOPLIST_FILE = YJNetManagerDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lancoo.YJNetManagerDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BA8197C8223CD7A700A1C20B /* Build configuration list for PBXProject "YJNetManagerDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA8197E1223CD7A800A1C20B /* Debug */,
+				BA8197E2223CD7A800A1C20B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BA8197E3223CD7A800A1C20B /* Build configuration list for PBXNativeTarget "YJNetManagerDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA8197E4223CD7A800A1C20B /* Debug */,
+				BA8197E5223CD7A800A1C20B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BA8197C5223CD7A700A1C20B /* Project object */;
+}
