@@ -112,26 +112,10 @@
 }
 - (void)md5GetRequestWithSuccess:(void(^)(id response))success failure:(void (^)(NSError * error))failure{
     YJResponseType responseType = self.wResponseType;
-    NSString *urlStr = self.wUrl;
-    NSString *dataStr = @"";
-    if (self.wParameters) {
-        dataStr = [NSString yj_encryptWithKey:self.userID encryptStr:[self.wParameters yj_URLQueryString]];
-    }
-    urlStr = [NSString stringWithFormat:@"%@?%@",urlStr,dataStr];
-    NSURL *requestUrl = [NSURL URLWithString:[urlStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:requestUrl];
+  
+    NSMutableURLRequest *request = [self exerciseMd5GetReqWithUrl:self.wUrl];
      request.timeoutInterval = self.wTimeout;
     
-    NSString *md5String = [NSString stringWithFormat:@"%@%@%@",self.userID,self.currentServiceTimeStamp,dataStr];
-    NSString *sign = [NSString yj_md5EncryptStr:md5String];
-    NSString *secret = [[NSString yj_md5EncryptStr:[NSString stringWithFormat:@"%@%@%@",[NSString yj_md5EncryptStr:@"LanCooKeyLanCooSecret"].uppercaseString,self.userID,@"addtionSecret"]] uppercaseString];
-    request.allHTTPHeaderFields = @{
-                                    @"secret": secret,
-                                    @"context":@"CONTEXT04",
-                                    @"platform":self.userID,
-                                    @"timestamp":self.currentServiceTimeStamp,
-                                    @"sign":sign
-                                    };
     NSURLSession *session = [NSURLSession sharedSession];
     __weak typeof(self) weakSelf = self;
     NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -147,28 +131,12 @@
 }
 - (void)md5PostRequestWithSuccess:(void(^)(id response))success failure:(void (^)(NSError * error))failure{
     YJResponseType responseType = self.wResponseType;
-    NSString *urlStr = self.wUrl;
-    NSURL *requestUrl = [NSURL URLWithString:[urlStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:requestUrl];
+   
+    NSMutableURLRequest *request = [self exerciseMd5PostReqWithUrl:self.wUrl];
     request.timeoutInterval = self.wTimeout;
     request.HTTPMethod = @"POST";
-    NSString *dataStr = @"";
-    if (self.wParameters) {
-        dataStr = [NSString yj_encryptWithKey:self.userID encryptDic:self.wParameters];
-    }
-    request.HTTPBody = [dataStr dataUsingEncoding:NSUTF8StringEncoding];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     
-    NSString *md5String = [NSString stringWithFormat:@"%@%@%@",self.userID,self.currentServiceTimeStamp,dataStr];
-    NSString *sign = [NSString yj_md5EncryptStr:md5String];
-    NSString *secret = [[NSString yj_md5EncryptStr:[NSString stringWithFormat:@"%@%@%@",[NSString yj_md5EncryptStr:@"LanCooKeyLanCooSecret"],self.userID,@"addtionSecret"]] uppercaseString];
-    request.allHTTPHeaderFields = @{
-                                    @"secret": secret,
-                                    @"context":@"CONTEXT04",
-                                    @"platform":self.userID,
-                                    @"timestamp":self.currentServiceTimeStamp,
-                                    @"sign":sign
-                                    };
     NSURLSession *session = [NSURLSession sharedSession];
     __weak typeof(self) weakSelf = self;
     NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -283,6 +251,42 @@
 }
 
 #pragma mark - Setter && Getter
+- (NSMutableURLRequest *)exerciseMd5GetReqWithUrl:(NSString *)url{
+    NSString *urlStr = url;
+    NSString *dataStr = @"";
+    if (self.wParameters) {
+        dataStr = [NSString yj_encryptWithKey:self.userID encryptStr:[self.wParameters yj_URLQueryString]];
+    }
+    urlStr = [NSString stringWithFormat:@"%@?%@",urlStr,dataStr];
+    NSURL *requestUrl = [NSURL URLWithString:[urlStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:requestUrl];
+    request.allHTTPHeaderFields = [self exerciseMd5ParamsWithMd5Str:dataStr];
+    return request;
+}
+- (NSMutableURLRequest *)exerciseMd5PostReqWithUrl:(NSString *)url{
+    NSURL *requestUrl = [NSURL URLWithString:[url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:requestUrl];
+    NSString *dataStr = @"";
+    if (self.wParameters) {
+        dataStr = [NSString yj_encryptWithKey:self.userID encryptDic:self.wParameters];
+    }
+    request.HTTPBody = [dataStr dataUsingEncoding:NSUTF8StringEncoding];
+    request.allHTTPHeaderFields = [self exerciseMd5ParamsWithMd5Str:dataStr];
+    return request;
+}
+- (NSDictionary *)exerciseMd5ParamsWithMd5Str:(NSString *)md5Str{
+    NSString *md5String = [NSString stringWithFormat:@"%@%@%@",self.userID,self.currentServiceTimeStamp,md5Str];
+    NSString *sign = [NSString yj_md5EncryptStr:md5String];
+    NSString *secret = [[NSString yj_md5EncryptStr:[NSString stringWithFormat:@"%@%@%@",[NSString yj_md5EncryptStr:@"LanCooKeyLanCooSecret"],self.userID,@"addtionSecret"]] uppercaseString];
+    NSDictionary *md5Params = @{
+                                    @"secret": secret,
+                                    @"context":@"CONTEXT04",
+                                    @"platform":self.userID,
+                                    @"timestamp":self.currentServiceTimeStamp,
+                                    @"sign":sign
+                                    };
+    return md5Params;
+}
 - (NSString *)cachePath{
     NSString *filePath = [NSString stringWithFormat:@"%@/Library/YJCache/",NSHomeDirectory()];
     if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
