@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "YJUploadModel.h"
+#import "NSError+YJNetManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSInteger,YJRequestType){
     YJRequestTypeGET,
     YJRequestTypePOST,
     YJRequestTypeTxt,
+    YJRequestTypeUpload,
     YJRequestTypeMD5GET,
     YJRequestTypeMD5POST,
 };
@@ -59,9 +61,13 @@ typedef NS_ENUM(NSInteger,YJResponseType){
 - (void)startRequestWithSuccess:(void(^)(id response))success
                         failure:(void (^)(NSError * error))failure;
 
+- (void)startRequestWithProgress:(nullable void(^)(NSProgress * progress))progress
+                            success:(void(^)(id _Nullable response))success
+                            failure:(void (^)(NSError * _Nullable error))failure;
+
 - (void)downloadCacheFileWithUrl:(NSString *)urlStr
-                         success:(void(^)(id response))success
-                         failure:(void (^)(NSError * error))failure;
+                         success:(void(^)(id _Nullable response))success
+                         failure:(void (^)(NSError * _Nullable error))failure;
 @end
 
 NS_ASSUME_NONNULL_END

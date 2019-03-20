@@ -8,7 +8,7 @@
 
 #import "YJNetManager.h"
 #import <AFNetworking/AFNetworking.h>
-#import "NSError+YJNetManager.h"
+
 #import <YJExtensions/YJExtensions.h>
 #import "YJNetMonitoring.h"
 
@@ -110,6 +110,31 @@
         failure([NSError yj_errorWithCode:YJErrorUrlEmpty description:@"资源不存在"]);
     }
 }
+- (void)uploadGetRequestWithProgress:(nullable void(^)(NSProgress * progress))progress success:(void(^)(id response))success failure:(void (^)(NSError * error))failure{
+     NSString *urlStr = [self.wUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    YJResponseType responseType = self.wResponseType;
+     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    __weak typeof(self) weakSelf = self;
+    [manager POST:urlStr parameters:self.wParameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        for (int i = 0; i < weakSelf.wUploadModel.uploadDatas.count; i++) {
+            NSData *imageData = weakSelf.wUploadModel.uploadDatas[i];
+            NSString *imageName = weakSelf.wUploadModel.fileNames[i];
+            [formData appendPartWithFileData:imageData name:[NSString stringWithFormat:@"%@%i",weakSelf.wUploadModel.name,i] fileName:imageName mimeType:weakSelf.wUploadModel.fileType];
+        }
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            progress(uploadProgress);
+        });
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            success(responseObject);
+        });
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            failure(error);
+        });
+    }];
+}
 - (void)md5GetRequestWithSuccess:(void(^)(id response))success failure:(void (^)(NSError * error))failure{
     YJResponseType responseType = self.wResponseType;
   
@@ -183,9 +208,12 @@
 }
 #pragma mark - Public
 - (void)startRequestWithSuccess:(void (^)(id _Nonnull))success failure:(void (^)(NSError * _Nonnull))failure{
+    [self startRequestWithProgress:nil success:success failure:failure];
+}
+- (void)startRequestWithProgress:(void (^)(NSProgress * _Nonnull))progress success:(void (^)(id _Nonnull))success failure:(void (^)(NSError * _Nonnull))failure{
     if ([YJNetMonitoring shareMonitoring].netStatus > 0) {
         if (self.wUrl && self.wUrl.length > 0) {
-            [self _startRequestWithProgress:nil success:success failure:failure];
+            [self _startRequestWithProgress:progress success:success failure:failure];
         }else{
             failure([NSError yj_errorWithCode:YJErrorUrlEmpty description:@"url empty"]);
         }
@@ -203,6 +231,9 @@
             break;
         case YJRequestTypeTxt:
             [self txtRequestWithSuccess:success failure:failure];
+            break;
+        case YJRequestTypeUpload:
+            [self uploadGetRequestWithProgress:progress success:success failure:failure];
             break;
         case YJRequestTypeMD5GET:
             [self md5GetRequestWithSuccess:success failure:failure];
