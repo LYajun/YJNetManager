@@ -308,7 +308,7 @@
 - (NSDictionary *)exerciseMd5ParamsWithMd5Str:(NSString *)md5Str{
     NSString *md5String = [NSString stringWithFormat:@"%@%@%@",self.userID,self.currentServiceTimeStamp,md5Str];
     NSString *sign = [NSString yj_md5EncryptStr:md5String];
-    NSString *secret = [[NSString yj_md5EncryptStr:[NSString stringWithFormat:@"%@%@%@",[NSString yj_md5EncryptStr:@"LanCooKeyLanCooSecret"],self.userID,@"addtionSecret"]] uppercaseString];
+    NSString *secret = [[NSString yj_md5EncryptStr:[NSString stringWithFormat:@"%@%@%@",[[NSString yj_md5EncryptStr:@"LanCooKeyLanCooSecret"] uppercaseString],self.userID,@"addtionSecret"]] uppercaseString];
     NSDictionary *md5Params = @{
                                     @"secret": secret,
                                     @"context":@"CONTEXT04",
