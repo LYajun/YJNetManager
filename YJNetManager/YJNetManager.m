@@ -97,7 +97,7 @@
     [dataTask resume];
 }
 - (void)txtRequestWithSuccess:(void(^)(id response))success failure:(void (^)(NSError * error))failure{
-    if ([NSFileManager yj_fileIsExistOfPath:self.wUrl]) {
+    if (![NSFileManager yj_fileIsExistOfPath:self.wUrl]) {
         failure([NSError yj_errorWithCode:YJErrorUrlEmpty description:@"资源不存在"]);
         return;
     }
@@ -140,7 +140,6 @@
   
     NSMutableURLRequest *request = [self exerciseMd5GetReqWithUrl:self.wUrl];
      request.timeoutInterval = self.wTimeout;
-    
     NSURLSession *session = [NSURLSession sharedSession];
     __weak typeof(self) weakSelf = self;
     NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -211,7 +210,7 @@
     [self startRequestWithProgress:nil success:success failure:failure];
 }
 - (void)startRequestWithProgress:(void (^)(NSProgress * _Nonnull))progress success:(void (^)(id _Nonnull))success failure:(void (^)(NSError * _Nonnull))failure{
-    if ([YJNetMonitoring shareMonitoring].netStatus > 0) {
+    if ([YJNetMonitoring shareMonitoring].netStatus > 0 || self.wRequestType == YJRequestTypeTxt) {
         if (self.wUrl && self.wUrl.length > 0) {
             [self _startRequestWithProgress:progress success:success failure:failure];
         }else{
@@ -247,9 +246,9 @@
     [self replace];
 }
 
-- (void)downloadCacheFileWithUrl:(NSString *)urlStr success:(void (^)(id _Nonnull))success failure:(void (^)(NSError * _Nonnull))failure{
+- (void)downloadCacheFileWithSuccess:(void (^)(id _Nullable))success failure:(void (^)(NSError * _Nullable))failure{
+    NSString *fileName = [self.wUrl componentsSeparatedByString:@"/"].lastObject;
     NSString *urlString = [self.wUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-    NSString *fileName = [urlString componentsSeparatedByString:@"/"].lastObject;
     NSString *path = [[self cachePath] stringByAppendingPathComponent:fileName];
     if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         success(path);

@@ -65,8 +65,7 @@ typedef NS_ENUM(NSInteger,YJResponseType){
                             success:(void(^)(id _Nullable response))success
                             failure:(void (^)(NSError * _Nullable error))failure;
 
-- (void)downloadCacheFileWithUrl:(NSString *)urlStr
-                         success:(void(^)(id _Nullable response))success
+- (void)downloadCacheFileWithSuccess:(void(^)(id _Nullable response))success
                          failure:(void (^)(NSError * _Nullable error))failure;
 @end
 

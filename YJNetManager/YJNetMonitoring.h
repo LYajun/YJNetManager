@@ -10,7 +10,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSInteger, YJNetMonitoringStatus) {
-    YJNetMonitoringStatusUnknown          = -1,
     YJNetMonitoringStatusNotReachable     = 0,
     YJNetMonitoringStatusReachableViaWWAN = 1,
     YJNetMonitoringStatusReachableViaWiFi = 2,
@@ -20,13 +19,12 @@ typedef NS_ENUM(NSInteger, YJNetMonitoringStatus) {
 @property (nonatomic,assign) NSInteger networkCanUseState;
 /** 网络状态 */
 @property (nonatomic,assign) YJNetMonitoringStatus netStatus;
-/** 基础地址 */
-@property (nonatomic,copy) NSString *apiUrl;
 
 + (YJNetMonitoring *)shareMonitoring;
 
 /** 网络监控 */
-- (void)netMonitoring;
+- (void)startNetMonitoring;
+- (void)stopNetMonitoring;
 
 /** 检测是否为外网 */
 - (void)checkNetCanUseWithComplete:(nullable void (^) (void))complete;

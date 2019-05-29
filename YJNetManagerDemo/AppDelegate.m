@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "YJNetMonitoring.h"
 
 @interface AppDelegate ()
 
@@ -16,7 +17,8 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    [[YJNetMonitoring shareMonitoring] startNetMonitoring];
+    [[YJNetMonitoring shareMonitoring] checkNetCanUseWithComplete:nil];
     return YES;
 }
 
@@ -44,7 +46,7 @@
 
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [[YJNetMonitoring shareMonitoring] stopNetMonitoring];
 }
 
 
