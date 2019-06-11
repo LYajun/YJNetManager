@@ -31,9 +31,13 @@ typedef NS_ENUM(NSInteger,YJResponseType){
 /** 用户ID */
 @property (nonatomic,copy) NSString *userID;
 
+
+@property (nonatomic,copy,readonly) NSDictionary *wParameters;
+
+
 + (YJNetManager *)defaultManager;
 
-
+- (void)cancelRequest;
 /** 填充网址 */
 - (YJNetManager* (^)(NSString *url))setRequest;
 
@@ -67,6 +71,13 @@ typedef NS_ENUM(NSInteger,YJResponseType){
 
 - (void)downloadCacheFileWithSuccess:(void(^)(id _Nullable response))success
                          failure:(void (^)(NSError * _Nullable error))failure;
+
+
+- (NSString *)currentServiceTimeStamp;
+
+- (NSMutableURLRequest *)exerciseMd5GetReqWithUrl:(NSString *)url;
+- (NSMutableURLRequest *)exerciseMd5PostReqWithUrl:(NSString *)url;
+- (NSDictionary *)exerciseMd5ParamsWithMd5Str:(NSString *)md5Str;
 @end
 
 NS_ASSUME_NONNULL_END

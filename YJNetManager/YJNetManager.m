@@ -20,6 +20,8 @@
 @property (nonatomic,copy) NSDictionary *wHttpHeader;
 @property (nonatomic,strong) YJUploadModel *wUploadModel;
 @property (nonatomic,assign) NSTimeInterval wTimeout;
+
+@property (nonatomic,strong) NSURLSessionDataTask *currentDataTask;
 @end
 
 @implementation YJNetManager
@@ -42,6 +44,11 @@
     _wHttpHeader = nil;
     _wUploadModel = nil;
     _wTimeout = 15;
+}
+- (void)cancelRequest{
+    if (self.currentDataTask) {
+        [self.currentDataTask cancel];
+    }
 }
 - (NSString *)currentServiceTimeStamp{
     NSTimeInterval currentDateInterval = [self.currentServiceTimeString.yj_date timeIntervalSince1970];
@@ -73,6 +80,7 @@
         });
     }];
     [dataTask resume];
+    self.currentDataTask = dataTask;
 }
 - (void)postRequestWithSuccess:(void(^)(id response))success failure:(void (^)(NSError * error))failure{
     NSString *urlStr = [self.wUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
@@ -95,24 +103,33 @@
         });
     }];
     [dataTask resume];
+    self.currentDataTask = dataTask;
 }
 - (void)txtRequestWithSuccess:(void(^)(id response))success failure:(void (^)(NSError * error))failure{
     if (![NSFileManager yj_fileIsExistOfPath:self.wUrl]) {
         failure([NSError yj_errorWithCode:YJErrorUrlEmpty description:@"资源不存在"]);
         return;
     }
-    NSString *str = [[NSString alloc] initWithContentsOfFile:self.wUrl encoding:NSUTF8StringEncoding error:nil];
-    NSData *JSONData = [str dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *responseJSON = [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableLeaves error:nil];
-    if (responseJSON && responseJSON.count > 0) {
-        success(responseJSON);
-    }else{
-        failure([NSError yj_errorWithCode:YJErrorUrlEmpty description:@"资源不存在"]);
-    }
+    NSString *urlStr = self.wUrl;
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSString *str = [[NSString alloc] initWithContentsOfFile:urlStr encoding:NSUTF8StringEncoding error:nil];
+        NSData *JSONData = [str dataUsingEncoding:NSUTF8StringEncoding];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (JSONData) {
+                NSDictionary *responseJSON = [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableLeaves error:nil];
+                if (responseJSON && responseJSON.count > 0) {
+                    success(responseJSON);
+                }else{
+                    failure([NSError yj_errorWithCode:YJErrorUrlEmpty description:@"资源不存在"]);
+                }
+            }else{
+                failure([NSError yj_errorWithCode:YJErrorUrlEmpty description:@"资源不存在"]);
+            }
+        });
+    });
 }
 - (void)uploadGetRequestWithProgress:(nullable void(^)(NSProgress * progress))progress success:(void(^)(id response))success failure:(void (^)(NSError * error))failure{
      NSString *urlStr = [self.wUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-    YJResponseType responseType = self.wResponseType;
      AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     __weak typeof(self) weakSelf = self;
     [manager POST:urlStr parameters:self.wParameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
@@ -152,6 +169,7 @@
         });
     }];
     [dataTask resume];
+    self.currentDataTask = dataTask;
 }
 - (void)md5PostRequestWithSuccess:(void(^)(id response))success failure:(void (^)(NSError * error))failure{
     YJResponseType responseType = self.wResponseType;
@@ -173,6 +191,7 @@
         });
     }];
     [dataTask resume];
+    self.currentDataTask = dataTask;
 }
 - (id)responseResultWithData:(NSData *)data responseType:(YJResponseType)type{
     switch (type) {
