@@ -25,7 +25,7 @@
 - (void)startNetMonitoring{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     
-    self.hostReachability = [Reachability reachabilityWithHostName:kYJNetMonitoringUrlToCheckNetStatus];
+    self.hostReachability = [Reachability reachabilityForInternetConnection];
     [self.hostReachability startNotifier];
     [self updateInterfaceWithReachability:self.hostReachability];
 }
