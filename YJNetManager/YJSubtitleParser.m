@@ -19,6 +19,9 @@
     return macro;
 }
 - (NSDictionary *)parseLrc:(NSString *)lrc{
+    if ((![lrc containsString:@"]"] && ![lrc containsString:@"["])) {
+        return @{};
+    }
     lrc = [lrc stringByReplacingOccurrencesOfString:@"]" withString:@"\n"];
     lrc = [lrc stringByReplacingOccurrencesOfString:@"[" withString:[[NSString yj_Char1] stringByAppendingString:@"\n"]];
     NSArray *singlearray = [lrc componentsSeparatedByString:@"\n"];
@@ -38,6 +41,10 @@
                 //时间
                 NSString *timeStr = str;
                 NSArray *arr = [timeStr componentsSeparatedByString:@":"];
+                if ([arr[1] floatValue] == 0) {
+                    j = 0;
+                    continue;
+                }
                 NSArray *arr1 = [arr[1] componentsSeparatedByString:@"."];
                 //将开始时间数组中的时间换化成秒为单位的
                 float teim= [arr[0] floatValue]*60 + [arr1[0] floatValue] + [arr1[1] floatValue]/100;
@@ -90,6 +97,9 @@
     return info;
 }
 - (NSDictionary *)parseSrt:(NSString *) srt{
+    if (![srt containsString:@" --> "]) {
+        return @{};
+    }
     NSArray *singlearray = [srt componentsSeparatedByString:@"\n"];
     NSMutableArray *begintimearray = [NSMutableArray array];
     NSMutableArray *endtimearray = [NSMutableArray array];

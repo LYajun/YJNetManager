@@ -203,20 +203,21 @@
             break;
         case YJResponseTypeString:
         {
-            NSData *xmldata = [data subdataWithRange:NSMakeRange(0,40)];
-            NSString *xmlstr = [[NSString alloc] initWithData:xmldata encoding:NSUTF8StringEncoding];
-            NSData *newData = data;
-            if (xmlstr && xmlstr.length > 0 && [xmlstr rangeOfString:@"\"GB2312\"" options:NSCaseInsensitiveSearch].location != NSNotFound){
-                NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
-                NSString *utf8str = [[NSString alloc] initWithData:newData encoding:enc];
-                utf8str = [utf8str stringByReplacingOccurrencesOfString:@"\"GB2312\"" withString:@"\"utf-8\"" options:NSCaseInsensitiveSearch range:NSMakeRange(0,40)];
-                newData = [utf8str dataUsingEncoding:NSUTF8StringEncoding];
+            NSString *xmlStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            if (!xmlStr){
+                //如果之前不能解码，现在使用GBK解码
+                xmlStr = [[NSString alloc] initWithData:data encoding:0x80000632];
             }
-            NSString *str = [[NSString alloc] initWithData:newData encoding:NSUTF8StringEncoding];
-            if (!str || str.length == 0) {
-                str = [[NSString alloc] initWithData:newData encoding:NSUnicodeStringEncoding];
+            if (!xmlStr) {
+                //再使用GB18030解码
+                xmlStr = [[NSString alloc] initWithData:data encoding:0x80000631];
             }
-            return str;
+            if (!xmlStr) {
+                xmlStr = [[NSString alloc] initWithData:data encoding:NSUnicodeStringEncoding];
+            }
+            if (!xmlStr) {
+                xmlStr = [NSString stringWithUTF8String:[data bytes]];
+            }
         }
             break;
         case YJResponseTypeData:
