@@ -218,6 +218,7 @@
             if (!xmlStr) {
                 xmlStr = [NSString stringWithUTF8String:[data bytes]];
             }
+            return xmlStr;
         }
             break;
         case YJResponseTypeData:
