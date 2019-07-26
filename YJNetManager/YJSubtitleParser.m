@@ -45,7 +45,7 @@
                     j = 0;
                     continue;
                 }
-                NSArray *arr1 = [arr[1] componentsSeparatedByString:@"."];
+                NSArray *arr1 = [arr.lastObject componentsSeparatedByString:@"."];
                 //将开始时间数组中的时间换化成秒为单位的
                 float teim= [arr[arr.count-2] floatValue]*60 + [arr1.firstObject floatValue] + [arr1.lastObject floatValue]/1000;
                 //将float类型转化成NSNumber类型才能存入数组
