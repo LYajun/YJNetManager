@@ -41,13 +41,13 @@
                 //时间
                 NSString *timeStr = str;
                 NSArray *arr = [timeStr componentsSeparatedByString:@":"];
-                if ([arr[1] floatValue] == 0) {
+                if ([self isContainLimitText:arr.lastObject]) {
                     j = 0;
                     continue;
                 }
                 NSArray *arr1 = [arr[1] componentsSeparatedByString:@"."];
                 //将开始时间数组中的时间换化成秒为单位的
-                float teim= [arr[0] floatValue]*60 + [arr1[0] floatValue] + [arr1[1] floatValue]/100;
+                float teim= [arr[arr.count-2] floatValue]*60 + [arr1.firstObject floatValue] + [arr1.lastObject floatValue]/1000;
                 //将float类型转化成NSNumber类型才能存入数组
                 NSNumber *beginnum = [NSNumber numberWithFloat:teim];
                 [begintimearray addObject:beginnum];
@@ -166,5 +166,29 @@
     [info setObject:arr forKey:@"srtList"];
     [info setObject:@(1) forKey:@"subTitleType"];
     return info;
+}
+
+- (BOOL)isContainLimitText:(NSString *)text{
+    if (text && text.length > 0) {
+        BOOL isContain = NO;
+        
+        for (int i=0; i < text.length; i++) {
+            NSRange range = NSMakeRange(i, 1);
+            NSString *strFromSubStr = [text substringWithRange:range];
+            if (![self predicateMatchWithText:strFromSubStr matchFormat:@"^[0-9.]$"]) {
+                isContain = YES;
+                
+                break;
+            }
+        }
+        return isContain;
+        
+    }
+    return YES;
+}
+
+- (BOOL)predicateMatchWithText:(NSString *) text matchFormat:(NSString *) matchFormat{
+    NSPredicate * predicate = [NSPredicate predicateWithFormat: @"SELF MATCHES %@", matchFormat];
+    return [predicate evaluateWithObject:text];
 }
 @end
