@@ -45,9 +45,14 @@
                     j = 0;
                     continue;
                 }
-                NSArray *arr1 = [arr.lastObject componentsSeparatedByString:@"."];
-                //将开始时间数组中的时间换化成秒为单位的
-                float teim= [arr[arr.count-2] floatValue]*60 + [arr1.firstObject floatValue] + [arr1.lastObject floatValue]/1000;
+                float teim = 0;
+                if ([arr.lastObject containsString:@"."]) {
+                    NSArray *arr1 = [arr.lastObject componentsSeparatedByString:@"."];
+                    //将开始时间数组中的时间换化成秒为单位的
+                  teim = [arr[arr.count-2] floatValue]*60 + [arr1.firstObject floatValue] + [arr1.lastObject floatValue]/1000;
+                }else{
+                    teim = [arr[arr.count-2] floatValue]*60 + [arr.lastObject floatValue];
+                }
                 //将float类型转化成NSNumber类型才能存入数组
                 NSNumber *beginnum = [NSNumber numberWithFloat:teim];
                 [begintimearray addObject:beginnum];
@@ -121,16 +126,27 @@
                     NSString *beginstr = [timeStr substringToIndex:range.location];
                     NSString *endstr = [timeStr substringFromIndex:range.location+range.length];
                     NSArray *arr = [beginstr componentsSeparatedByString:@":"];
-                    NSArray *arr1 = [arr[2] componentsSeparatedByString:@","];
-                    //将开始时间数组中的时间换化成秒为单位的
-                    float teim=[arr[0] floatValue] * 60*60 + [arr[1] floatValue]*60 + [arr1[0] floatValue] + [arr1[1] floatValue]/1000;
+                    float teim = 0;
+                    if ([arr.lastObject containsString:@","]) {
+                        NSArray *arr1 = [arr.lastObject componentsSeparatedByString:@","];
+                        //将开始时间数组中的时间换化成秒为单位的
+                        teim = [arr[arr.count-3] floatValue] * 60*60 + [arr[arr.count-2] floatValue]*60 + [arr1.firstObject floatValue] + [arr1.lastObject floatValue]/1000;
+                    }else{
+                        teim = [arr[arr.count-3] floatValue] * 60*60 + [arr[arr.count-2] floatValue]*60 + [arr.lastObject floatValue];
+                    }
                     //将float类型转化成NSNumber类型才能存入数组
                     NSNumber *beginnum = [NSNumber numberWithFloat:teim];
                     [begintimearray addObject:beginnum];
                     NSArray * array = [endstr componentsSeparatedByString:@":"];
-                    NSArray * arr2 = [array[2] componentsSeparatedByString:@","];
-                    //将结束时间数组中的时间换化成秒为单位的
-                    float fl=[array[0] floatValue] * 60*60 + [array[1] floatValue]*60 + [arr2[0] floatValue] + [arr2[1] floatValue]/1000;
+                    float fl = 0;
+                    if ([array.lastObject containsString:@","]) {
+                        NSArray * arr2 = [array.lastObject componentsSeparatedByString:@","];
+                        //将结束时间数组中的时间换化成秒为单位的
+                        fl = [array[array.count-3] floatValue] * 60*60 + [array[array.count-2] floatValue]*60 + [arr2.firstObject floatValue] + [arr2.lastObject floatValue]/1000;
+                        
+                    }else{
+                        fl = [array[array.count-3] floatValue] * 60*60 + [array[array.count-2] floatValue]*60 + [array.lastObject floatValue];
+                    }
                     NSNumber *endnum = [NSNumber numberWithFloat:fl];
                     [endtimearray addObject:endnum];
                 }
