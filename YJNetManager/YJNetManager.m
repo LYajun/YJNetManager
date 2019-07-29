@@ -236,9 +236,11 @@
             [self _startRequestWithProgress:progress success:success failure:failure];
         }else{
             failure([NSError yj_errorWithCode:YJErrorUrlEmpty description:@"url empty"]);
+            [self replace];
         }
     }else{
         failure([NSError yj_errorWithCode:YJErrorNoNetwork description:@"无网络连接"]);
+        [self replace];
     }
 }
 - (void)_startRequestWithProgress:(void(^)(NSProgress * progress))progress success:(void(^)(id response))success failure:(void (^)(NSError * error))failure{
