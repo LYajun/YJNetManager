@@ -75,13 +75,12 @@
     request.timeoutInterval = self.wTimeout;
     NSURLSession *session = [NSURLSession sharedSession];
     YJResponseType responseType = self.wResponseType;
-    __weak typeof(self) weakSelf = self;
     NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error) {
                 failure(error);
             }else{
-                success([weakSelf responseResultWithData:data responseType:responseType]);
+                success([YJNetManager responseResultWithData:data responseType:responseType]);
             }
         });
     }];
@@ -98,13 +97,12 @@
     request.HTTPBody = [NSJSONSerialization dataWithJSONObject:self.wParameters options:NSJSONWritingPrettyPrinted error:NULL];
     NSURLSession *session = [NSURLSession sharedSession];
     YJResponseType responseType = self.wResponseType;
-    __weak typeof(self) weakSelf = self;
     NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error) {
                 failure(error);
             }else{
-                success([weakSelf responseResultWithData:data responseType:responseType]);
+                success([YJNetManager responseResultWithData:data responseType:responseType]);
             }
         });
     }];
@@ -164,13 +162,12 @@
     NSMutableURLRequest *request = [self exerciseMd5GetReqWithUrl:self.wUrl];
      request.timeoutInterval = self.wTimeout;
     NSURLSession *session = [NSURLSession sharedSession];
-    __weak typeof(self) weakSelf = self;
     NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error) {
                 failure(error);
             }else{
-                success([weakSelf responseResultWithData:data responseType:responseType]);
+                success([YJNetManager responseResultWithData:data responseType:responseType]);
             }
         });
     }];
@@ -186,20 +183,19 @@
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     
     NSURLSession *session = [NSURLSession sharedSession];
-    __weak typeof(self) weakSelf = self;
     NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error) {
                 failure(error);
             }else{
-                success([weakSelf responseResultWithData:data responseType:responseType]);
+                success([YJNetManager responseResultWithData:data responseType:responseType]);
             }
         });
     }];
     [dataTask resume];
     self.currentDataTask = dataTask;
 }
-- (id)responseResultWithData:(NSData *)data responseType:(YJResponseType)type{
++ (id)responseResultWithData:(NSData *)data responseType:(YJResponseType)type{
     switch (type) {
         case YJResponseTypeJSON:
         {
