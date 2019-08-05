@@ -34,7 +34,13 @@
     });
     return macro;
 }
-
++ (YJNetManager *)createManager{
+    YJNetManager *manager = [[YJNetManager alloc] init];
+    manager.userID = [YJNetManager defaultManager].userID;
+    manager.serverTimeInteverval = [YJNetManager defaultManager].serverTimeInteverval;
+    [manager replace];
+    return manager;
+}
 #pragma mark - Private
 - (void)replace {
     _wUrl = nil;

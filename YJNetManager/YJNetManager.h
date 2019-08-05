@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger,YJResponseType){
 
 
 + (YJNetManager *)defaultManager;
-
++ (YJNetManager *)createManager;
 - (void)cancelRequest;
 /** 填充网址 */
 - (YJNetManager* (^)(NSString *url))setRequest;
