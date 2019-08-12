@@ -45,14 +45,7 @@
                     j = 0;
                     continue;
                 }
-                float teim = 0;
-                if ([arr.lastObject containsString:@"."]) {
-                    NSArray *arr1 = [arr.lastObject componentsSeparatedByString:@"."];
-                    //将开始时间数组中的时间换化成秒为单位的
-                  teim = [arr[arr.count-2] floatValue]*60 + [arr1.firstObject floatValue] + [arr1.lastObject floatValue]/1000;
-                }else{
-                    teim = [arr[arr.count-2] floatValue]*60 + [arr.lastObject floatValue];
-                }
+                float teim  = [arr[arr.count-2] floatValue]*60 + [arr.lastObject floatValue];
                 //将float类型转化成NSNumber类型才能存入数组
                 NSNumber *beginnum = [NSNumber numberWithFloat:teim];
                 [begintimearray addObject:beginnum];
