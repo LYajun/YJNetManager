@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "YJNetManager"
-  s.version      = "1.1.4"
+  s.version      = "1.1.5"
   s.summary      = "网络工具，网络监控"
 
 
@@ -28,4 +28,5 @@ Pod::Spec.new do |s|
   s.dependency 'YJExtensions'
   s.dependency 'AFNetworking'
   s.dependency 'Reachability'
+  s.dependency 'LGLog'
 end

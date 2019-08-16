@@ -9,6 +9,7 @@
 #import "YJNetMonitoring.h"
 #import <Reachability/Reachability.h>
 
+
 #define kYJNetMonitoringUrlToCheckNetStatus @"http://www.stkouyu.com/"
 @interface YJNetMonitoring ()
 @property (nonatomic) Reachability *hostReachability;

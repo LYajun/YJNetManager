@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import <Reachability/Reachability.h>
+#import <LGLog/LGLog.h>
 
 @interface ViewController ()
 @property (nonatomic) Reachability *hostReachability;
@@ -18,7 +19,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-    
     self.hostReachability = [Reachability reachabilityWithHostName:@"http://www.stkouyu.com/"];
     [self.hostReachability startNotifier];
     [self updateInterfaceWithReachability:self.hostReachability];

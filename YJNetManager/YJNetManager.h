@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "YJUploadModel.h"
 #import "NSError+YJNetManager.h"
+#import "YJNetMonitoring.h"
 
 NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSInteger,YJRequestType){

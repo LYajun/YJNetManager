@@ -10,7 +10,7 @@
 #import <AFNetworking/AFNetworking.h>
 
 #import <YJExtensions/YJExtensions.h>
-#import "YJNetMonitoring.h"
+#import <LGLog/LGLog.h>
 
 @interface YJNetManager ()
 @property (nonatomic,copy) NSString *wUrl;
@@ -66,6 +66,8 @@
     return currentServiceStr;
 }
 - (void)getRequestWithSuccess:(void(^)(id response))success failure:(void (^)(NSError * error))failure{
+    NSString *originUrl = self.wUrl;
+    NSDictionary *originParams = self.wParameters;
     NSString *urlStr = [self.wUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     if (self.wParameters) {
         urlStr = [NSString stringWithFormat:@"%@?%@",urlStr,[self.wParameters yj_URLQueryString]];
@@ -79,6 +81,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error) {
                 failure(error);
+                [YJNetManager LogErrorRegMethod:@"GET" urlStr:originUrl errorMsg:error.localizedDescription params:originParams];
             }else{
                 success([YJNetManager responseResultWithData:data responseType:responseType]);
             }
@@ -88,6 +91,8 @@
     self.currentDataTask = dataTask;
 }
 - (void)postRequestWithSuccess:(void(^)(id response))success failure:(void (^)(NSError * error))failure{
+    NSString *originUrl = self.wUrl;
+    NSDictionary *originParams = self.wParameters;
     NSString *urlStr = [self.wUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSURL *requestUrl = [NSURL URLWithString:urlStr];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:requestUrl];
@@ -101,6 +106,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error) {
                 failure(error);
+                 [YJNetManager LogErrorRegMethod:@"POST" urlStr:originUrl errorMsg:error.localizedDescription params:originParams];
             }else{
                 success([YJNetManager responseResultWithData:data responseType:responseType]);
             }
@@ -133,6 +139,7 @@
     });
 }
 - (void)uploadGetRequestWithProgress:(nullable void(^)(NSProgress * progress))progress success:(void(^)(id response))success failure:(void (^)(NSError * error))failure{
+    NSString *originUrl = self.wUrl;
      NSString *urlStr = [self.wUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
      AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     __weak typeof(self) weakSelf = self;
@@ -154,9 +161,13 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             failure(error);
         });
+        [YJNetManager LogErrorRegMethod:@"UPLOAD" urlStr:originUrl errorMsg:error.localizedDescription params:@{}];
     }];
 }
 - (void)md5GetRequestWithSuccess:(void(^)(id response))success failure:(void (^)(NSError * error))failure{
+    NSString *originUrl = self.wUrl;
+    NSDictionary *originParams = self.wParameters;
+    
     YJResponseType responseType = self.wResponseType;
   
     NSMutableURLRequest *request = [self exerciseMd5GetReqWithUrl:self.wUrl];
@@ -166,6 +177,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error) {
                 failure(error);
+                 [YJNetManager LogErrorRegMethod:@"MD5GET" urlStr:originUrl errorMsg:error.localizedDescription params:originParams];
             }else{
                 success([YJNetManager responseResultWithData:data responseType:responseType]);
             }
@@ -175,6 +187,9 @@
     self.currentDataTask = dataTask;
 }
 - (void)md5PostRequestWithSuccess:(void(^)(id response))success failure:(void (^)(NSError * error))failure{
+    NSString *originUrl = self.wUrl;
+    NSDictionary *originParams = self.wParameters;
+    
     YJResponseType responseType = self.wResponseType;
    
     NSMutableURLRequest *request = [self exerciseMd5PostReqWithUrl:self.wUrl];
@@ -187,6 +202,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error) {
                 failure(error);
+                 [YJNetManager LogErrorRegMethod:@"MD5POST" urlStr:originUrl errorMsg:error.localizedDescription params:originParams];
             }else{
                 success([YJNetManager responseResultWithData:data responseType:responseType]);
             }
@@ -227,6 +243,13 @@
             return data;
             break;
     }
+}
++ (void)LogErrorRegMethod:(NSString *)method urlStr:(NSString *)urlStr errorMsg:(NSString *)msg params:(NSDictionary *)params{
+    if (!params) {
+        params = @{};
+    }
+    NSString *content = [NSString stringWithFormat:@"\n请求方法:%@\nURL:%@\n请求参数:%@\n错误信息:%@",method,urlStr,params,msg];
+    LGLogError(content);
 }
 #pragma mark - Public
 - (void)startRequestWithSuccess:(void (^)(id _Nonnull))success failure:(void (^)(NSError * _Nonnull))failure{
