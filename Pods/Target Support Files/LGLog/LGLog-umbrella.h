@@ -13,6 +13,21 @@
 #import "LGLog.h"
 #import "LGLogFormatter.h"
 #import "LGLogManager.h"
+#import "CocoaLumberjack.h"
+#import "DDAbstractDatabaseLogger.h"
+#import "DDASLLogCapture.h"
+#import "DDASLLogger.h"
+#import "DDAssertMacros.h"
+#import "DDFileLogger.h"
+#import "DDLegacyMacros.h"
+#import "DDLog+LOGV.h"
+#import "DDLog.h"
+#import "DDLogMacros.h"
+#import "DDOSLogger.h"
+#import "DDTTYLogger.h"
+#import "DDContextFilterLogFormatter.h"
+#import "DDDispatchQueueLogFormatter.h"
+#import "DDMultiFormatter.h"
 
 FOUNDATION_EXPORT double LGLogVersionNumber;
 FOUNDATION_EXPORT const unsigned char LGLogVersionString[];

@@ -14,11 +14,12 @@ PODS:
   - AFNetworking/Serialization (3.2.1)
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
-  - CocoaLumberjack (3.5.3):
-    - CocoaLumberjack/Core (= 3.5.3)
-  - CocoaLumberjack/Core (3.5.3)
-  - LGLog (1.0.1):
-    - CocoaLumberjack
+  - LGLog (1.0.2):
+    - LGLog/LGLogManager (= 1.0.2)
+    - LGLog/YJCocoaLumberjack (= 1.0.2)
+  - LGLog/LGLogManager (1.0.2):
+    - LGLog/YJCocoaLumberjack
+  - LGLog/YJCocoaLumberjack (1.0.2)
   - Reachability (3.2)
   - TFHpple (2.0.0)
   - YJExtensions (1.0.0):
@@ -26,14 +27,13 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
-  - LGLog
+  - LGLog (= 1.0.2)
   - Reachability
   - YJExtensions
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AFNetworking
-    - CocoaLumberjack
     - LGLog
     - Reachability
     - TFHpple
@@ -41,12 +41,11 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
-  CocoaLumberjack: 2f44e60eb91c176d471fdba43b9e3eae6a721947
-  LGLog: 85782c1d8bc2a1158d56ca190647644d8019cba8
+  LGLog: a58e542c6c99755d1b8eca492b2acf70a3115731
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   TFHpple: a916fe0799eb30aa29b2670d14d5868cdd3a5b81
   YJExtensions: bcb4a185ca88202f6ee3fd328d7f37baf3c75924
 
-PODFILE CHECKSUM: c5466a1012470578a0ee9d7f8822d6b946bf755e
+PODFILE CHECKSUM: 2ad9d6efd3a298fb5dd7f25d7c8f2a57453aa3a3
 
 COCOAPODS: 1.7.0.beta.3
