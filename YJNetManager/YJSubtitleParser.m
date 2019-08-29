@@ -45,6 +45,11 @@
                     j = 0;
                     continue;
                 }
+                NSMutableArray *arrCopy = arr.mutableCopy;
+                if (arr.count == 1) {
+                    [arrCopy insertObject:@"00" atIndex:0];
+                }
+                arr = arrCopy;
                 float teim  = [arr[arr.count-2] floatValue]*60 + [arr.lastObject floatValue];
                 //将float类型转化成NSNumber类型才能存入数组
                 NSNumber *beginnum = [NSNumber numberWithFloat:teim];
@@ -119,6 +124,14 @@
                     NSString *beginstr = [timeStr substringToIndex:range.location];
                     NSString *endstr = [timeStr substringFromIndex:range.location+range.length];
                     NSArray *arr = [beginstr componentsSeparatedByString:@":"];
+                    NSMutableArray *arrCopy = arr.mutableCopy;
+                    if (arr.count == 1) {
+                        [arrCopy insertObject:@"00" atIndex:0];
+                        [arrCopy insertObject:@"00" atIndex:0];
+                    }else if (arr.count == 2){
+                        [arrCopy insertObject:@"00" atIndex:0];
+                    }
+                    arr = arrCopy;
                     float teim = 0;
                     if ([arr.lastObject containsString:@","]) {
                         NSArray *arr1 = [arr.lastObject componentsSeparatedByString:@","];
@@ -131,6 +144,14 @@
                     NSNumber *beginnum = [NSNumber numberWithFloat:teim];
                     [begintimearray addObject:beginnum];
                     NSArray * array = [endstr componentsSeparatedByString:@":"];
+                    NSMutableArray *arrayCopy = array.mutableCopy;
+                    if (array.count == 1) {
+                        [arrayCopy insertObject:@"00" atIndex:0];
+                        [arrayCopy insertObject:@"00" atIndex:0];
+                    }else if (array.count == 2){
+                        [arrayCopy insertObject:@"00" atIndex:0];
+                    }
+                    array = arrayCopy;
                     float fl = 0;
                     if ([array.lastObject containsString:@","]) {
                         NSArray * arr2 = [array.lastObject componentsSeparatedByString:@","];
