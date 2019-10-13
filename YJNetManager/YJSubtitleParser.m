@@ -28,9 +28,10 @@
     NSMutableArray *begintimearray = [NSMutableArray array];
     NSMutableArray *subtitlesarray = [NSMutableArray array];
     NSString *subStr = @"";
+    int i = 0;
     int j = 0;
     for (NSString *s in singlearray) {
-        NSString *str = [s stringByReplacingOccurrencesOfString:@"\r" withString:@""];;
+        NSString *str = [s stringByReplacingOccurrencesOfString:@"\r" withString:@""];
         if ([str isEqualToString:[NSString yj_Char1]]) {
             j = 0;
         }
@@ -58,15 +59,17 @@
                 break;
             case 2:
             {
-                NSString *nextS = [singlearray objectAtIndex:j+1];
-                NSString *nextStr = [nextS stringByReplacingOccurrencesOfString:@"\r" withString:@""];;
-                if ([nextStr isEqualToString:[NSString yj_Char1]]) {
-                    [subtitlesarray addObject:str];
-                    subStr = @"";
+                
+                if ([s isEqualToString:singlearray.lastObject]) {
+                    [subtitlesarray addObject:s];
                 }else{
-                    subStr = str;
-                    if ([s isEqualToString:singlearray.lastObject]) {
-                        [subtitlesarray addObject:subStr];
+                    NSString *nextS = [singlearray objectAtIndex:i+1];
+                    NSString *nextStr = [nextS stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+                    if ([nextStr isEqualToString:[NSString yj_Char1]]) {
+                        [subtitlesarray addObject:str];
+                        subStr = @"";
+                    }else{
+                        subStr = str;
                     }
                 }
             }
@@ -85,6 +88,7 @@
             default:
                 break;
         }
+        i++;
         j++;
     }
     NSMutableArray *arr = [NSMutableArray array];
