@@ -44,17 +44,17 @@
                 NSArray *arr = [timeStr componentsSeparatedByString:@":"];
                 if ([self isContainLimitText:arr.lastObject]) {
                     j = 0;
-                    continue;
+                }else{
+                    NSMutableArray *arrCopy = arr.mutableCopy;
+                    if (arr.count == 1) {
+                        [arrCopy insertObject:@"00" atIndex:0];
+                    }
+                    arr = arrCopy;
+                    float teim  = [arr[arr.count-2] floatValue]*60 + [arr.lastObject floatValue];
+                    //将float类型转化成NSNumber类型才能存入数组
+                    NSNumber *beginnum = [NSNumber numberWithFloat:teim];
+                    [begintimearray addObject:beginnum];
                 }
-                NSMutableArray *arrCopy = arr.mutableCopy;
-                if (arr.count == 1) {
-                    [arrCopy insertObject:@"00" atIndex:0];
-                }
-                arr = arrCopy;
-                float teim  = [arr[arr.count-2] floatValue]*60 + [arr.lastObject floatValue];
-                //将float类型转化成NSNumber类型才能存入数组
-                NSNumber *beginnum = [NSNumber numberWithFloat:teim];
-                [begintimearray addObject:beginnum];
             }
                 break;
             case 2:
