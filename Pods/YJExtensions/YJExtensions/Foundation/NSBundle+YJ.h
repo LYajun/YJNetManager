@@ -11,9 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface NSBundle (YJ)
-
-+ (instancetype)yj_bundleWithName:(NSString *)name;
-+ (NSString *)yj_bundlePathWithName:(NSString *)name atBundle:(NSString *)bundle;
++ (instancetype)yj_bundleWithCustomClass:(Class)customClass bundleName:(NSString *)bundleName;
+- (NSString *)yj_bundlePathWithName:(NSString *)name;
 
 @end
 

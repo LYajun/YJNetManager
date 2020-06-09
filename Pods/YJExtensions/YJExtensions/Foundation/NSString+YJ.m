@@ -8,11 +8,24 @@
 
 #import "NSString+YJ.h"
 #import <CommonCrypto/CommonCrypto.h>
-#import <TFHpple/TFHpple.h>
+#import "YJEHpple.h"
 #import <objc/runtime.h>
 
 #define YJ_ASSOCIATIVE_CURRENT_DICTIONARY_KEY @"ASSOCIATIVE_CURRENT_DICTIONARY_KEY"
 #define YJ_ASSOCIATIVE_CURRENT_TEXT_KEY @"ASSOCIATIVE_CURRENT_TEXT_KEY"
+
+#define IsObjEmpty(_ref)    (((_ref) == nil) || ([(_ref) isEqual:[NSNull null]]))
+
+
+static inline NSDictionary *YJHTMLEscapeMap() {
+    return @{@"&nbsp;":@" ",
+             @"&lt;":@"<",
+             @"&gt;":@">",
+             @"&amp;":@"&",
+             @"&quot;":@"\"",
+             @"&apos;":@"'"
+    };
+}
 
 @interface NSString () <NSXMLParserDelegate>
 
@@ -23,11 +36,14 @@
 @end
 
 @implementation NSString (YJ)
+
+
+
 + (NSString *)yj_Char1{
     return [NSString stringWithFormat:@"%c",1];
 }
 + (NSString *)yj_StandardAnswerSeparatedStr{
-    return @"$、 ";
+    return @"$/";
 }
 + (NSString *)yj_stringToASCIIStringWithIntCount:(NSInteger)intCount{
     return [NSString stringWithFormat:@"%c",(int)intCount];
@@ -64,6 +80,9 @@
 - (NSString *)yj_deleteWhitespaceCharacter{
     return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
+- (NSString *)yj_deleteWhitespaceAndNewlineCharacter{
+    return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
 - (NSInteger)yj_stringToASCIIInt{
     return [self characterAtIndex:0];
 }
@@ -79,6 +98,23 @@
         return arr;
     }
     return @[];
+}
++ (NSString *)yj_ChineseNumbersWithNumber:(NSInteger)number{
+    NSDictionary *numberDic = @{@"0":@"零",@"1":@"一",@"2":@"二",@"3":@"三",@"4":@"四",@"5":@"五",@"6":@"六",@"7":@"七",@"8":@"八",@"9":@"九",@"10":@"十",@"100":@"一百",@"1000":@"一千"};
+    NSString *numberStr = @"零";
+    if (number <= 10 || number == 100 || number == 1000) {
+        numberStr = [numberDic objectForKey:[NSString stringWithFormat:@"%li",number]];
+    }else if (number < 100){
+        NSInteger shi = number / 10;
+        NSInteger ge =  number % 10;
+        numberStr = [NSString stringWithFormat:@"%@十%@",[numberDic objectForKey:[NSString stringWithFormat:@"%li",shi]],[numberDic objectForKey:[NSString stringWithFormat:@"%li",ge]]] ;
+    }else if (number < 1000){
+        NSInteger bai = number / 100;
+        NSInteger shi = number % 100 / 10;
+        NSInteger ge =  number % 100 % 10;
+        numberStr = [NSString stringWithFormat:@"%@百%@十%@",[numberDic objectForKey:[NSString stringWithFormat:@"%li",bai]],[numberDic objectForKey:[NSString stringWithFormat:@"%li",shi]],[numberDic objectForKey:[NSString stringWithFormat:@"%li",ge]]] ;
+    }
+    return numberStr;
 }
 #pragma mark - Xml
 
@@ -226,12 +262,12 @@
     }
     NSData *htmlData = [html dataUsingEncoding:NSUTF8StringEncoding];
     // 解析html数据
-    TFHpple *xpathParser = [[TFHpple alloc] initWithHTMLData:htmlData];
+    YJEHpple *xpathParser = [[YJEHpple alloc] initWithHTMLData:htmlData];
     // 根据标签来进行过滤
     NSArray *imgArray = [xpathParser searchWithXPathQuery:@"//img"];
     
     if (imgArray && imgArray.count > 0) {
-        [imgArray enumerateObjectsUsingBlock:^(TFHppleElement *hppleElement, NSUInteger idx, BOOL * _Nonnull stop) {
+        [imgArray enumerateObjectsUsingBlock:^(YJEHppleElement *hppleElement, NSUInteger idx, BOOL * _Nonnull stop) {
             NSDictionary *attributes = hppleElement.attributes;
             NSString *src = attributes[@"src"];
             NSString *srcSuf = [src componentsSeparatedByString:@"."].lastObject;
@@ -244,6 +280,62 @@
         }];
     }
     return html;
+}
++ (NSString *)yj_filterHTML:(NSString *)html{
+    NSScanner *theScanner;
+    NSString *text = nil;
+    theScanner = [NSScanner scannerWithString:html];
+    while ([theScanner isAtEnd] == NO) {
+        // find start of tag
+        [theScanner scanUpToString:@"<" intoString:NULL] ;
+        // find end of tag
+        [theScanner scanUpToString:@">" intoString:&text] ;
+        // replace the found tag with a space
+        //(you can filter multi-spaces out later if you wish)
+        html = [html stringByReplacingOccurrencesOfString:
+                [NSString stringWithFormat:@"%@>", text]
+                                               withString:@""];
+    }
+    return html;
+}
++ (NSString *)yj_adaptWebViewForHtml:(NSString *)htmlStr{
+    NSMutableString *headHtml = [[NSMutableString alloc] initWithCapacity:0];
+    [headHtml appendString : @"<html>" ];
+    [headHtml appendString : @"<head>" ];
+    [headHtml appendString : @"<meta charset=\"utf-8\">" ];
+    [headHtml appendString : @"<meta id=\"viewport\" name=\"viewport\" content=\"width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=false\" />" ];
+    [headHtml appendString : @"<meta name=\"apple-mobile-web-app-capable\" content=\"yes\" />" ];
+    [headHtml appendString : @"<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black\" />" ];
+    [headHtml appendString : @"<meta name=\"black\" name=\"apple-mobile-web-app-status-bar-style\" />" ];
+    [headHtml appendString:@"<body style=\"word-wrap:break-word;\">"];
+    //适配图片宽度，让图片宽度等于屏幕宽度
+    //[headHtml appendString : @"<style>img{width:100%;}</style>" ];
+    //[headHtml appendString : @"<style>img{height:auto;}</style>" ];
+    //适配图片宽度，让图片宽度最大等于屏幕宽度
+    //    [headHtml appendString : @"<style>img{max-width:100%;width:auto;height:auto;}</style>"];
+    //适配图片宽度，如果图片宽度超过手机屏幕宽度，就让图片宽度等于手机屏幕宽度，高度自适应，如果图片宽度小于屏幕宽度，就显示图片大小
+    [headHtml appendString : @"<script type='text/javascript'>"
+     "window.onload = function(){\n"
+     "var maxwidth=document.body.clientWidth;\n" //屏幕宽度
+     "for(i=0;i <document.images.length;i++){\n"
+     "var myimg = document.images[i];\n"
+     "if(myimg.width > maxwidth){\n"
+     "myimg.style.width = '90%';\n"
+     "myimg.style.height = 'auto'\n;"
+     "}\n"
+     "}\n"
+     "}\n"
+     "</script>\n"];
+    [headHtml appendString : @"<style>table{width:90%;}</style>" ];
+    [headHtml appendString : @"<title>webview</title>" ];
+    NSString *bodyHtml;
+    bodyHtml = [NSString stringWithString:headHtml];
+    bodyHtml = [bodyHtml stringByAppendingString:htmlStr];
+    return bodyHtml;
+}
++ (BOOL)predicateMatchWithText:(NSString *)text matchFormat:(NSString *)matchFormat{
+    NSPredicate * predicate = [NSPredicate predicateWithFormat: @"SELF MATCHES %@", matchFormat];
+    return [predicate evaluateWithObject:text];
 }
 #pragma mark - 尺寸
 - (CGFloat)yj_widthWithFont:(UIFont *)font{
@@ -335,7 +427,7 @@
         }else{
             return [NSString stringWithFormat:@"%02li:%02li",minute,second];
         }
-    }else if (timeInterval < 24*60*60){
+    }else{
         NSInteger hour = (NSInteger)timeInterval / (60*60);
         NSInteger minute = (NSInteger)timeInterval % (60*60) / 60;
         NSInteger second = (NSInteger)timeInterval % (60*60) % 60;
@@ -343,16 +435,6 @@
             return [NSString stringWithFormat:@"%li时%li分%02li秒",hour,minute,second];
         }else{
             return [NSString stringWithFormat:@"%02li:%02li:%02li",hour,minute,second];
-        }
-    }else{
-        NSInteger day = (NSInteger)timeInterval / (24*60*60);
-        NSInteger hour = (NSInteger)timeInterval % (24*60*60) / (60*60);
-        NSInteger minute = (NSInteger)timeInterval % (24*60*60) % (60*60) / 60;
-        NSInteger second = (NSInteger)timeInterval % (24*60*60) % (60*60) % 60;
-        if (isShowChinese) {
-            return [NSString stringWithFormat:@"%li天%li时%li分%02li秒",day,hour,minute,second];
-        }else{
-            return [NSString stringWithFormat:@"%02li:%02li:%02li:%02li",day,hour,minute,second];
         }
     }
 }
@@ -373,6 +455,59 @@
         }
     }
     return displayTime;
+}
+#pragma mark - 编码、转码
+- (NSString *)yj_URLDecode{
+    return [self stringByRemovingPercentEncoding];
+}
+- (NSString *)yj_URLEncode{
+    NSMutableCharacterSet * allowedCharacterSet = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
+    [allowedCharacterSet removeCharactersInString:[kYJCharactersGeneralDelimitersToEncode stringByAppendingString:kYJCharactersSubDelimitersToEncode]];
+    NSString *URLEscapedString = [self stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacterSet];
+    return URLEscapedString;
+}
+- (NSString *)yj_URLQueryAllowedCharacterSet{
+    return [self stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+}
++ (NSString *)yj_deleteURLDoubleSlashWithUrlStr:(NSString *)urlStr{
+    if (urlStr && urlStr.length > 0 && [urlStr containsString:@"://"]) {
+        NSArray *urlArr = [urlStr componentsSeparatedByString:@"://"];
+       NSString *lastStr = [urlArr.lastObject stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
+       while ([lastStr containsString:@"//"]) {
+           lastStr = [lastStr stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
+       }
+       urlStr = [NSString stringWithFormat:@"%@://%@",urlArr.firstObject,lastStr];
+    }
+    return urlStr;
+}
+- (NSString *)yj_htmlDecode{
+    if (self && self.length > 0) {
+        NSString *html = self;
+        for (NSString *keyStr in YJHTMLEscapeMap().allKeys) {
+            if ([html containsString:keyStr]) {
+                html = [html stringByReplacingOccurrencesOfString:keyStr withString:[YJHTMLEscapeMap() objectForKey:keyStr]];
+            }
+        }
+        return html;
+    }
+    return @"";
+}
++ (BOOL)yj_isNum:(NSString *)checkedNumString{
+    if (!checkedNumString || checkedNumString.length == 0) {
+        return NO;
+    }
+    checkedNumString = [checkedNumString stringByTrimmingCharactersInSet:[NSCharacterSet decimalDigitCharacterSet]];
+    if(checkedNumString.length > 0) {
+        return NO;
+    }
+    return YES;
+}
++ (BOOL)yj_predicateMatchWithText:(NSString *)text matchFormat:(NSString *)matchFormat{
+    if (!text || text.length == 0) {
+        return NO;
+    }
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"SELF MATCHES %@", matchFormat];
+    return [predicate evaluateWithObject:text];
 }
 @end
 
@@ -704,6 +839,9 @@
 
 @implementation NSString (Encrypt)
 + (NSString *)yj_encryptWithKey:(NSString *)key encryptStr:(NSString *)encryptStr{
+    if (IsObjEmpty(key) || IsObjEmpty(encryptStr)) {
+        return @"";
+    }
     //转化skey
     NSString *keyAfterMD5 = [self yj_md5EncryptStr:key];
     NSData *keyData = [keyAfterMD5 dataUsingEncoding: NSUTF8StringEncoding];
@@ -724,6 +862,9 @@
     return reverseStrF;
 }
 + (NSString *)yj_md5EncryptStr:(NSString *)encryptStr{
+    if (IsObjEmpty(encryptStr)) {
+        return @"";
+    }
     const char *cStrValue = [encryptStr UTF8String];
     unsigned char result[CC_MD5_DIGEST_LENGTH];
     CC_MD5(cStrValue, (CC_LONG)strlen(cStrValue), result);
@@ -735,12 +876,23 @@
     return mdfiveString;
 }
 + (NSString *)yj_encryptWithKey:(NSString *)key encryptDic:(NSDictionary *)encryptDic{
-    NSData *jsData = [NSJSONSerialization dataWithJSONObject:encryptDic options:NSJSONWritingPrettyPrinted error:nil];
+    if (IsObjEmpty(key) || IsObjEmpty(encryptDic)) {
+        return @"";
+    }
+    NSData *jsData;
+    if (@available(iOS 11.0, *)) {
+        jsData = [NSJSONSerialization dataWithJSONObject:encryptDic options:NSJSONWritingSortedKeys error:nil];
+    }else{
+        jsData = [NSJSONSerialization dataWithJSONObject:encryptDic options:NSJSONWritingPrettyPrinted error:nil];
+    }
     NSString *codeString = [[NSString alloc] initWithData:jsData encoding:NSUTF8StringEncoding];
     return [self yj_encryptWithKey:key encryptStr:codeString];
 }
 
 + (NSString *)yj_decryptWithKey:(NSString *)key decryptStr:(NSString *)decryptStr{
+    if (IsObjEmpty(key) || IsObjEmpty(decryptStr)) {
+        return @"";
+    }
     //转化skey
     NSString *keyAfterMD5 = [self yj_md5EncryptStr:key];
     NSData *keyData = [keyAfterMD5 dataUsingEncoding: NSUTF8StringEncoding];

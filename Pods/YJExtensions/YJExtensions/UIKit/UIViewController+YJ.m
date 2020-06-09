@@ -16,6 +16,42 @@ static const void *YJBackButtonHandlerKey = &YJBackButtonHandlerKey;
 - (YJBackButtonHandler)yj_backButtonTouched{
     return objc_getAssociatedObject(self, YJBackButtonHandlerKey);
 }
+
++ (UIViewController *)yj_topControllerForController:(UIViewController *)controller{
+    NSLog(@"findTopController: %@", NSStringFromClass(controller.class));
+    UIViewController *nextController;
+    if (nextController == nil && [controller respondsToSelector:@selector(presentedViewController)]) {
+        nextController = [controller performSelector:@selector(presentedViewController)];
+    }
+    if (nextController == nil && [controller respondsToSelector:@selector(topViewController)]) {
+        nextController = [controller performSelector:@selector(topViewController)];
+    }
+    if (nextController == nil && [controller respondsToSelector:@selector(selectedViewController)]) {
+        nextController = [controller performSelector:@selector(selectedViewController)];
+    }
+    if (nextController) {
+        return [self yj_topControllerForController:nextController];
+    } else {
+        return controller;
+    }
+}
+
+- (void)yj_popViewControllerByName:(NSString *)viewControllerName{
+    UINavigationController *navigationVC = self.navigationController;
+    for (UIViewController *vc in navigationVC.viewControllers) {
+        if ([vc isKindOfClass:NSClassFromString(viewControllerName)]) {
+            [navigationVC popToViewController:vc animated:YES];
+            break;
+        }
+    }
+}
+- (void)yj_dismissToRootController{
+    UIViewController * presentingViewController = self.presentingViewController;
+    while (presentingViewController.presentingViewController) {
+        presentingViewController = presentingViewController.presentingViewController;
+    }
+    [presentingViewController dismissViewControllerAnimated:NO completion:nil];
+}
 @end
 
 @implementation UINavigationController (ShouldPopItem)

@@ -6,6 +6,6 @@ target 'YJNetManagerDemo’ do
 pod 'AFNetworking'
 pod 'YJExtensions'
 pod 'Reachability'
-pod 'LGLog','1.0.2'
+pod 'LGLog'
 
 end

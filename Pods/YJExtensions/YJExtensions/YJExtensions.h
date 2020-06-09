@@ -18,6 +18,9 @@
 #import "UIViewController+YJ.h"
 #import "UINavigationBar+YJ.h"
 #import "UIImageView+YJ.h"
+#import "UIColor+YJ.h"
+#import "UIControl+YJ.h"
+#import "UISegmentedControl+YJ.h"
 
 /** Foundation */
 #import "NSArray+YJ.h"

@@ -7,23 +7,20 @@
 //
 
 #import "NSBundle+YJ.h"
-@interface YJExtModel : NSObject
-@end
-@implementation YJExtModel
-@end
 
 @implementation NSBundle (YJ)
 
-+ (instancetype)yj_bundleWithName:(NSString *)name{
-    static NSBundle *bundle = nil;
-    if (!bundle) {
++ (instancetype)yj_bundleWithCustomClass:(Class)customClass bundleName:(NSString *)bundleName{
+    
+//    static NSBundle *bundle = nil;
+//    if (!bundle) {
         // 这里不使用mainBundle是为了适配pod 1.x和0.x
-        bundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[YJExtModel class]] pathForResource:name ofType:@"bundle"]];
-    }
+      NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:customClass] pathForResource:bundleName ofType:@"bundle"]];
+//    }
     return bundle;
 }
 
-+ (NSString *)yj_bundlePathWithName:(NSString *)name atBundle:(NSString *)bundle{
-    return [[[NSBundle yj_bundleWithName:bundle] resourcePath] stringByAppendingPathComponent:name];
+- (NSString *)yj_bundlePathWithName:(NSString *)name{
+    return [[self resourcePath] stringByAppendingPathComponent:name];
 }
 @end
