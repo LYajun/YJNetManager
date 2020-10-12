@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "YJNetManager"
-  s.version      = "1.2.2"
+  s.version      = "1.2.3"
   s.summary      = "网络工具，网络监控"
 
 
